@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+
+  aspnetapp:
+    build: ./aspnetapp
+    # ports:
+    #   - "8001:80"
+    networks:
+      - backend
+
+  nodejsapp:
+    build: ./nodejsapp
+    # ports:
+    #   - "8002:80"
+    networks:
+      - backend
+
+  pyapp:
+    build: ./pyapp
+    # ports:
+    #   - "8003:80"
+    networks:
+      - backend
+
+  proxy:
+    build: ./proxy
+    ports:
+      - "443:443"
+      - "80:80"
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - aspnetapp
+      - nodejsapp
+      - pyapp
+
+networks:
+  frontend:
+  backend:

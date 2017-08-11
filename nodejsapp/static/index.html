@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Demo</title>
+    <link rel="stylesheet" href="/bootstrap-reboot.min.css?v=4.0.0-alpha.6" integrity="sha256-f5pPUePiefaggF4rDeeUCm0Qb/DA3YY+jSP3ffWJAOU=">
+    <style>
+        body {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello from Node.js <span id="me"></span></h1>
+    <h2 id="hello">Hello</h2>
+    <h3>.NET Core <span id="apime"></span> says:</h3>
+    <pre id="output"></pre>
+    <script src="/bluebird.core.min.js?v=3.5.0" integrity="sha256-JOvLq1E2OoBd7jpytZ81P69I4dgUg0SK0dfpnK9iGPw="></script>
+    <script src="/fetch.min.js?v=2.0.3" integrity="sha256-aB35laj7IZhLTx58xw/Gm1EKOoJJKZt6RY+bH1ReHxs="></script>
+    <script>
+        function fetchText(url, outputElementId) {
+            fetch(url).then(function (response) {
+                if (!response.ok) {
+                    throw Error(response.status);
+                }
+                return response.text();
+            }).then(function (text) {
+                document.getElementById(outputElementId).innerHTML = text;
+            }).catch(function (error) {
+                document.getElementById(outputElementId).innerHTML = '<span style="color:red">' + error + '</span>';
+            });
+        }
+
+        function fetchJson(url, outputElementId) {
+            fetch(url).then(function (response) {
+                if (!response.ok) {
+                    throw Error(response.status);
+                }
+                return response.json();
+            }).then(function (json) {
+                var text = JSON.stringify(json, undefined, 3);
+                document.getElementById(outputElementId).innerHTML = text;
+            }).catch(function (error) {
+                document.getElementById(outputElementId).innerHTML = '<span style="color:red">' + error + '</span>';
+            });
+        }
+
+        function update() {
+            fetchText('/me', 'me');
+            fetchText('/hello/', 'hello');
+            fetchText('/api/me', 'apime');
+            fetchJson('/api/values', 'output');
+
+            var timeoutHandle = setTimeout(function () {
+                clearTimeout(timeoutHandle);
+                update();
+            }, 500);
+        }
+
+        update();
+
+        setTimeout(function () {
+            window.location.reload(false);
+        }, 15000);
+    </script>
+</body>
+</html>
