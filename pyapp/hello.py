@@ -4,6 +4,11 @@ from flask import Flask, Response
 app = Flask(__name__)
 
 
+@app.route('/me')
+def me():
+    return Response(socket.gethostname(), mimetype='text/plain')
+
+
 @app.route('/')
 def index():
     return Response('Hello from Python {}'.format(socket.gethostname()), mimetype='text/plain')
