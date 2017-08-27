@@ -5,65 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Demo</title>
-    <link rel="stylesheet" href="/bootstrap-reboot.min.css?v=4.0.0-alpha.6" integrity="sha256-f5pPUePiefaggF4rDeeUCm0Qb/DA3YY+jSP3ffWJAOU=">
-    <style>
-        body {
-            margin: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha256-m/h/cUDAhf6/iBRixTbuc8+Rg2cIETQtPcH9D3p2Kg0=" crossorigin="anonymous">
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
-    <h1>Hello from Node.js <span id="me"></span></h1>
-    <h2 id="hello">Hello</h2>
-    <h3>.NET Core <span id="apime"></span> says:</h3>
-    <pre id="output"></pre>
-    <script src="/bluebird.core.min.js?v=3.5.0" integrity="sha256-JOvLq1E2OoBd7jpytZ81P69I4dgUg0SK0dfpnK9iGPw="></script>
-    <script src="/fetch.min.js?v=2.0.3" integrity="sha256-aB35laj7IZhLTx58xw/Gm1EKOoJJKZt6RY+bH1ReHxs="></script>
-    <script>
-        function fetchText(url, outputElementId) {
-            fetch(url).then(function (response) {
-                if (!response.ok) {
-                    throw Error(response.status);
-                }
-                return response.text();
-            }).then(function (text) {
-                document.getElementById(outputElementId).innerHTML = text;
-            }).catch(function (error) {
-                document.getElementById(outputElementId).innerHTML = '<span style="color:red">' + error + '</span>';
-            });
-        }
-
-        function fetchJson(url, outputElementId) {
-            fetch(url).then(function (response) {
-                if (!response.ok) {
-                    throw Error(response.status);
-                }
-                return response.json();
-            }).then(function (json) {
-                var text = JSON.stringify(json, undefined, 3);
-                document.getElementById(outputElementId).innerHTML = text;
-            }).catch(function (error) {
-                document.getElementById(outputElementId).innerHTML = '<span style="color:red">' + error + '</span>';
-            });
-        }
-
-        function update() {
-            fetchText('/me', 'me');
-            fetchText('/hello/', 'hello');
-            fetchText('/api/me', 'apime');
-            fetchJson('/api/values', 'output');
-
-            var timeoutHandle = setTimeout(function () {
-                clearTimeout(timeoutHandle);
-                update();
-            }, 500);
-        }
-
-        update();
-
-        setTimeout(function () {
-            window.location.reload(false);
-        }, 15000);
-    </script>
+    <div class="container">
+        <div class="row pt-3 text-center">
+            <div class="col-md-4 mt-3">
+                <h2>Node.js</h2>
+                <div id="node-me"></div>
+            </div>
+            <div class="col-md-4 mt-3">
+                <h2>Python</h2>
+                <div id="python-me"></div>
+            </div>
+            <div class="col-md-4 mt-3">
+                <h2>.NET Core</h2>
+                <div id="dotnet-me"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.0/bluebird.core.min.js" integrity="sha256-JOvLq1E2OoBd7jpytZ81P69I4dgUg0SK0dfpnK9iGPw=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js" integrity="sha256-aB35laj7IZhLTx58xw/Gm1EKOoJJKZt6RY+bH1ReHxs=" crossorigin="anonymous"></script>
+    <script src="app.js"></script>
 </body>
 </html>

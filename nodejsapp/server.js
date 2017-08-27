@@ -10,7 +10,7 @@ server.use(function (req, res, next) {
 
 server.get('/me', function (req, res) {
     res.set('Content-Type', 'text/plain');
-    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.set('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate');
     res.send(os.hostname());
 });
 
