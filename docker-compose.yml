@@ -4,27 +4,25 @@ services:
 
   aspnetapp:
     build: ./aspnetapp
-    # ports:
-    #   - "8001:80"
+    image: docker-compose-demo/aspnetapp:dev
     networks:
       - backend
 
   nodejsapp:
     build: ./nodejsapp
-    # ports:
-    #   - "8002:80"
+    image: docker-compose-demo/nodejsapp:dev
     networks:
       - backend
 
   pyapp:
     build: ./pyapp
-    # ports:
-    #   - "8003:80"
+    image: docker-compose-demo/pyapp:dev
     networks:
       - backend
 
   proxy:
     build: ./proxy
+    image: docker-compose-demo/proxy:dev
     ports:
       - "443:443"
       - "80:80"
