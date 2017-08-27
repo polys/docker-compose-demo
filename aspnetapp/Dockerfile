@@ -15,6 +15,10 @@ FROM microsoft/aspnetcore:2.0
 WORKDIR /app
 COPY --from=build-env /app/out .
 
+ENV ASPNETCORE_URLS="http://*:80"
+
 EXPOSE 80
+
+HEALTHCHECK CMD curl --fail http://localhost/api/me || exit 1
 
 ENTRYPOINT ["dotnet", "aspnetapp.dll"]
