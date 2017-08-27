@@ -47,7 +47,7 @@
     }
 
     function updatePage() {
-        fetchText('/me', 'node-me');
+        fetchText('/node/me', 'node-me');
         fetchText('/py/me', 'python-me');
         fetchText('/api/me', 'dotnet-me');
         //fetchJson('/api/values', 'output');

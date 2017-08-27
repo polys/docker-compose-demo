@@ -20,6 +20,15 @@ services:
     networks:
       - backend
 
+  lighttpd:
+    build: ./lighttpd
+    image: docker-compose-demo/lighttpd:dev
+    networks:
+      - backend
+      - frontend
+    volumes:
+      - ./www:/var/www/localhost/htdocs
+
   proxy:
     build: ./proxy
     image: docker-compose-demo/proxy:dev
@@ -30,6 +39,7 @@ services:
       - backend
       - frontend
     depends_on:
+      - lighttpd
       - aspnetapp
       - nodejsapp
       - pyapp

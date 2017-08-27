@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+
+    lighttpd:
+        build: .
+        image: polys/lighttpd:dev
+        ports:
+            - "8080:80"
+        volumes:
+            - ./www:/var/www/localhost/htdocs
