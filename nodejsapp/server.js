@@ -2,6 +2,8 @@ const os = require('os');
 const express = require('express');
 const server = express();
 
+server.disable('x-powered-by');
+
 server.use(function (req, res, next) {
     console.log(os.hostname(), req.method, req.url);
     next();

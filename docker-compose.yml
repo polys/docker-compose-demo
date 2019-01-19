@@ -1,45 +1,42 @@
-version: '2'
+version: '3.3'
 
 services:
 
   aspnetapp:
     build: ./aspnetapp
-    image: docker-compose-demo/aspnetapp:dev
+    image: polys/docker-compose-demo-aspnet:dev
     networks:
       - backend
 
   nodejsapp:
     build: ./nodejsapp
-    image: docker-compose-demo/nodejsapp:dev
+    image: polys/docker-compose-demo-nodejs:dev
     networks:
       - backend
 
   pyapp:
     build: ./pyapp
-    image: docker-compose-demo/pyapp:dev
+    image: polys/docker-compose-demo-python:dev
     networks:
       - backend
 
-  lighttpd:
-    build: ./lighttpd
-    image: docker-compose-demo/lighttpd:dev
+  web:
+    build: ./www
+    image: polys/docker-compose-demo-web:dev
     networks:
       - backend
       - frontend
-    volumes:
-      - ./www:/var/www/localhost/htdocs
 
   proxy:
     build: ./proxy
-    image: docker-compose-demo/proxy:dev
+    image: polys/docker-compose-demo-proxy:dev
     ports:
-      - "443:443"
-      - "80:80"
+      - "8080:80"
     networks:
       - backend
       - frontend
     depends_on:
-      - lighttpd
+      - web
       - aspnetapp
       - nodejsapp
       - pyapp

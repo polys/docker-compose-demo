@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+
+  aspnetapp:
+    image: polys/docker-compose-demo-aspnet:dev
+
+  nodejsapp:
+    image: polys/docker-compose-demo-nodejs:dev
+
+  pyapp:
+    image: polys/docker-compose-demo-python:dev
+
+  web:
+    image: polys/docker-compose-demo-web:dev
+
+  proxy:
+    image: polys/docker-compose-demo-proxy:dev
+    ports:
+      - "80:80"

@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore-build:2.0 AS build-env
+FROM microsoft/dotnet:2.2-sdk-alpine AS build-env
 
 WORKDIR /app
 
@@ -11,14 +11,12 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM microsoft/aspnetcore:2.0
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine
 WORKDIR /app
 COPY --from=build-env /app/out .
 
 ENV ASPNETCORE_URLS="http://*:80"
 
 EXPOSE 80
-
-HEALTHCHECK CMD curl --fail http://localhost/api/me || exit 1
 
 ENTRYPOINT ["dotnet", "aspnetapp.dll"]
