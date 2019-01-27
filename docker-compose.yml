@@ -1,45 +1,52 @@
-version: '3.3'
+version: "3.3"
 
 services:
 
+  auth:
+    build: ./auth
+    image: polys/docker-compose-demo-auth
+    networks:
+      - backend
+
   aspnetapp:
     build: ./aspnetapp
-    image: polys/docker-compose-demo-aspnet:dev
+    image: polys/docker-compose-demo-aspnet
     networks:
       - backend
 
   nodejsapp:
     build: ./nodejsapp
-    image: polys/docker-compose-demo-nodejs:dev
+    image: polys/docker-compose-demo-nodejs
     networks:
       - backend
 
-  pyapp:
+  pythonapp:
     build: ./pyapp
-    image: polys/docker-compose-demo-python:dev
+    image: polys/docker-compose-demo-python
     networks:
       - backend
 
   web:
     build: ./www
-    image: polys/docker-compose-demo-web:dev
+    image: polys/docker-compose-demo-web
     networks:
       - backend
       - frontend
 
   proxy:
     build: ./proxy
-    image: polys/docker-compose-demo-proxy:dev
+    image: polys/docker-compose-demo-proxy
     ports:
       - "8080:80"
     networks:
       - backend
       - frontend
     depends_on:
+      - auth
       - web
       - aspnetapp
       - nodejsapp
-      - pyapp
+      - pythonapp
 
 networks:
   frontend:

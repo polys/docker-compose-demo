@@ -1,67 +1,72 @@
 (function app() {
     var _hostnames = {};
+    var _responseTimeSums = {};
 
-    function fetchText(url, outputElementId) {
-        fetch(url).then(function (response) {
+    function fetchText(url, hostElementId, timeElementId) {
+        var token = document.getElementById('tokenInput').value;
+        var hostElement = document.getElementById(hostElementId);
+        var timeElement = document.getElementById(timeElementId);
+
+        return fetch(url, {
+            headers: { 'Authorization': 'Bearer ' + token },
+            credentials: 'omit',
+            mode: 'same-origin'
+        }).then(function (response) {
             if (!response.ok) {
                 throw Error(response.status);
             }
+
+            var responseTime = parseFloat(response.headers.get('X-Response-Time'));
+            var responseTimeSum = (_responseTimeSums[timeElementId] || 0) + responseTime;
+            _responseTimeSums[timeElementId] = responseTimeSum;
+
             return response.text();
-        }).then(function (text) {
-            var dict = _hostnames[outputElementId] || {};
-            dict[text] = (dict[text] || 0) + 1;
-            _hostnames[outputElementId] = dict;
+
+        }).then(function (host) {
+            var hostnames = _hostnames[hostElementId] || {};
+            hostnames[host] = (hostnames[host] || 0) + 1;
+            _hostnames[hostElementId] = hostnames;
+
+            var responseTimeSum = _responseTimeSums[timeElementId] || 0;
 
             var html = '';
-            for (var key in dict) {
-                if (dict.hasOwnProperty(key)) {
-                    var count = dict[key];
-                    if (key === text) {
-                        html += '<p class="h4 text-primary font-weight-bold">' + key;
+            var countSum = 0;
+            for (var key in hostnames) {
+                if (hostnames.hasOwnProperty(key)) {
+                    var count = hostnames[key];
+                    countSum += count;
+                    if (key === host) {
+                        html += '<p class="h6 text-primary font-weight-bold">' + key;
                     } else {
-                        html += '<p class="h4 text-muted">' + key;
+                        html += '<p class="h6 text-muted">' + key;
                     }
                     html += ' <small>(' + count + ')</small></p>';
                 }
             }
 
-            document.getElementById(outputElementId).innerHTML = html;
+            hostElement.innerHTML = html;
+
+            var responseTime = countSum > 5 ? 1000 * responseTimeSum / countSum : null;
+            timeElement.innerHTML = (responseTime ? responseTime.toFixed(0) + ' ms' : '-') + ' (' + countSum + ')';
 
         }).catch(function (error) {
-            document.getElementById(outputElementId).innerHTML = '<span class="text-danger">' + error + '</span>';
-        });
-    }
-
-    function fetchJson(url, outputElementId) {
-        fetch(url).then(function (response) {
-            if (!response.ok) {
-                throw Error(response.status);
-            }
-            return response.json();
-        }).then(function (json) {
-            var text = JSON.stringify(json, undefined, 3);
-            document.getElementById(outputElementId).innerHTML = text;
-        }).catch(function (error) {
-            document.getElementById(outputElementId).innerHTML = '<span style="color:red">' + error + '</span>';
+            hostElement.innerHTML = '<span class="text-danger small">' + error + '</span>';
         });
     }
 
     function updatePage() {
-        fetchText('/node/me', 'node-me');
-        fetchText('/py/me', 'python-me');
-        fetchText('/api/me', 'dotnet-me');
-        //fetchJson('/api/values', 'output');
+
+        Promise.all(
+            ['node', 'python', 'dotnet']
+                .filter(s => document.getElementById(s + '-enabled').checked)
+                .map(s => fetchText('/api/' + s + '/', s + '-host', s + '-time'))
+        );
 
         var timeoutHandle = setTimeout(function () {
             clearTimeout(timeoutHandle);
             updatePage();
-        }, 1000);
+        }, 3000);
     }
 
     updatePage();
-
-    // setTimeout(function () {
-    //     window.location.reload(false);
-    // }, 15000);
-
 })();

@@ -1,18 +1,17 @@
-import socket
-from flask import Flask, Response
+from socket import gethostname
+from flask import Flask, Response, request
 
 app = Flask(__name__)
 
 
-@app.route('/me')
-def me():
-    return Response(socket.gethostname(), mimetype='text/plain')
-
-
-@app.route('/')
+@app.route("/")
 def index():
-    return Response('Hello from Python {}'.format(socket.gethostname()), mimetype='text/plain')
+    return Response(
+        "py-" + gethostname(),
+        mimetype="text/plain",
+        headers={"X-Auth-User": request.headers.get("X-Auth-User")},
+    )
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=80)

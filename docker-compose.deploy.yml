@@ -2,13 +2,16 @@ version: '3.3'
 
 services:
 
+  auth:
+    image: polys/docker-compose-demo-auth:dev
+
   aspnetapp:
     image: polys/docker-compose-demo-aspnet:dev
 
   nodejsapp:
     image: polys/docker-compose-demo-nodejs:dev
 
-  pyapp:
+  pythonapp:
     image: polys/docker-compose-demo-python:dev
 
   web:

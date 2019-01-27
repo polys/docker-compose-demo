@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM python:3.7-alpine
 
 ENV PYTHONUNBUFFERED 1
 
@@ -7,9 +7,9 @@ EXPOSE 80
 RUN mkdir /code
 WORKDIR /code
 
-ADD requirements.txt /code/
+ADD requirements.txt .
 RUN pip install -r requirements.txt
 
-ADD . /code/
+ADD . .
 
-ENTRYPOINT ["python3", "hello.py"]
+CMD [ "gunicorn", "hello:app", "-b=0.0.0.0:80" ]

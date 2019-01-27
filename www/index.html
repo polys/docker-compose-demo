@@ -8,24 +8,44 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha256-azvvU9xKluwHFJ0Cpgtf0CYzK7zgtOznnzxV4924X1w=" crossorigin="anonymous" />
 </head>
 <body>
-    <div class="container">
-        <div class="row pt-3 text-center">
-            <div class="col-md-4 mt-3">
-                <h2>Node.js</h2>
-                <pre id="node-me"></pre>
+    <div class="container-fluid">
+        <div class="form-group py-3">
+            <label class="small" for="tokenInput">Bearer Token:</label>
+            <input id="tokenInput" type="text" class="form-control form-control-sm" id="tokenInput" value="HelloWorld" />
+            <small class="form-text text-muted">
+                The token should start with <code>Hello</code> followed by a name
+                (e.g. <code>HelloWorld</code>)
+            </small>
+        </div>
+        <div class="row text-center">
+            <div class="col-sm-4 mt-3">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="node-enabled" checked />
+                    <label class="custom-control-label h5 my-0" for="node-enabled">Node.js</label>
+                </div>
+                <pre class="my-3" id="node-time"></pre>
+                <pre id="node-host"></pre>
             </div>
-            <div class="col-md-4 mt-3">
-                <h2>Python</h2>
-                <pre id="python-me"></pre>
+            <div class="col-sm-4 mt-3">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="python-enabled" checked />
+                    <label class="custom-control-label h5 my-0" for="python-enabled">Python</label>
+                </div>
+                <pre class="my-3" id="python-time"></pre>
+                <pre id="python-host"></pre>
             </div>
-            <div class="col-md-4 mt-3">
-                <h2>.NET Core</h2>
-                <pre id="dotnet-me"></pre>
+            <div class="col-sm-4 mt-3">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="dotnet-enabled" checked />
+                    <label class="custom-control-label h5 my-0" for="dotnet-enabled">.NET Core</label>
+                </div>
+                <pre class="my-3" id="dotnet-time"></pre>
+                <pre id="dotnet-host"></pre>
             </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.3/bluebird.min.js" integrity="sha256-vlGkKVvcIflk/184mw0as3dEIHjtrk6k0IEGqMffPTk=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.min.js" integrity="sha256-E1M+0f/hvoNVoV8K5RSn1gwe4EFwlvORnOrFzghX0wM=" crossorigin="anonymous"></script>
-    <script src="app.js" integrity="sha256-AciJjMRjUam6E5wNo1PBgzh1b0VXFSjeMnNC0j7GOy4="></script>
+    <script src="app.js"></script>
 </body>
 </html>

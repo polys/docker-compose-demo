@@ -4,7 +4,9 @@ EXPOSE 80
 
 WORKDIR /usr/src/app
 
-COPY . .
+COPY ./package.json ./package-lock.json ./
 RUN npm install
+
+COPY . .
 
 CMD [ "npm", "start" ]

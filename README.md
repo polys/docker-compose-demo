@@ -1,8 +1,14 @@
 ## Docker Compose Demo
 
 To run:
-* `docker-compose up --scale nodejsapp=2 --scale pyapp=2 --scale aspnetapp=2 --scale web=2 -d --build` 
+
+* `docker-compose up --build`
+
+  or
+
+  `docker-compose up --scale auth=1 --scale nodejsapp=3 --scale pythonapp=3 --scale aspnetapp=3 --build --remove-orphans -d`
+
 * visit http://localhost:8080
 
-To stop:
-* `docker-compose down`
+To stop and cleanup:
+* `docker-compose down --remove-orphans --rmi all`
